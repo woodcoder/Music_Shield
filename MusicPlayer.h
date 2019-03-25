@@ -156,7 +156,7 @@ public:
   void    attachDigitOperation(int pinNum, void (*userFunc)(void), int mode);
   void    attachAnalogOperation(int pinNum, void (*userFunc)(void));
 
-  void    setVolume(unsigned char volume) { vs1053.setVolume(volume, volume); _volume = volume;}
+  void    setVolume(unsigned char volume) { _volume = volume;}
   void    adjustVolume(boolean UpOrDown, unsigned char NumSteps = 6);
   void    setPlayMode(playMode_t playmode) { _playmode = playmode;}
   boolean deleteSong(char *songName);
@@ -179,8 +179,9 @@ public:
   void    opFastRewind()  {ctrlState = CS_PREV_LONG;}
   void    _hardtime_update(void);
 
+  volatile unsigned char _volume;
+
 private:
-  unsigned char _volume;
   unsigned int  _currentSongIndex;
   playMode_t    _playmode;
   boolean       playOrPause;

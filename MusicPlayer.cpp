@@ -57,7 +57,7 @@ SdFile      cur_file;
 
 playingstatetype playingState;
 ctrlState_t      ctrlState;
-
+unsigned char    playerVolume = 0xff;
 
 volatile static byte ledflagOn = 1;
 volatile static int  ledcount = 50;
@@ -81,6 +81,12 @@ void showString(PGM_P s)
 /**************************************************************/
 ISR(TIMER1_OVF_vect)          //Timer1 Service
 {
+  if (player._volume != playerVolume)
+  {
+    playerVolume = player._volume;
+    vs1053.setVolume(playerVolume, playerVolume);
+  }
+
   //fill vs1053
   while (digitalRead(VS_DREQ) == 1 && playingState == PS_PLAY && cur_file.isOpen() && !fastforward)
   {
